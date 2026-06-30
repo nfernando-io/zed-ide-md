@@ -1,0 +1,19 @@
+[
+  {
+    "context": "Editor && mode == full",
+    "bindings": {
+      "cmd-shift-v": [
+        "task::Spawn",
+        {
+          "task_name": "Markdown Preview"
+        }
+      ],
+      "ctrl-shift-v": [
+        "task::Spawn",
+        {
+          "task_name": "Markdown Preview"
+        }
+      ]
+    }
+  }
+]
