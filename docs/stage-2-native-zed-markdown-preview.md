@@ -7,7 +7,7 @@ This document explains how to build, run, and verify the native Zed Markdown pre
 Stage 2 is isolated from the Stage 1 project:
 
 ```text
-/home/nfern/Projects/zen-ide/zed-stage2
+<project-root>/zed-stage2
 ```
 
 The implementation branch is:
@@ -19,7 +19,7 @@ stage2-rich-markdown-preview
 Check it with:
 
 ```bash
-cd /home/nfern/Projects/zen-ide/zed-stage2
+cd <project-root>/zed-stage2
 git branch --show-current
 git status --short
 ```
@@ -68,7 +68,7 @@ sudo apt-get install -y \
 If your distro package names differ, follow Zed's upstream Linux guide:
 
 ```text
-/home/nfern/Projects/zen-ide/zed-stage2/docs/src/development/linux.md
+<project-root>/zed-stage2/docs/src/development/linux.md
 ```
 
 ## Checks To Run
@@ -76,7 +76,7 @@ If your distro package names differ, follow Zed's upstream Linux guide:
 From the Stage 2 clone:
 
 ```bash
-cd /home/nfern/Projects/zen-ide/zed-stage2
+cd <project-root>/zed-stage2
 cargo fmt --package markdown --package markdown_preview -- --check
 cargo check -p markdown --lib
 cargo test -p markdown test_preview_style_uses_larger_heading_scale_and_borders
@@ -116,7 +116,7 @@ Install `pkg-config` and `libfontconfig1-dev`, then rerun the test commands abov
 After dependencies are installed:
 
 ```bash
-cd /home/nfern/Projects/zen-ide/zed-stage2
+cd <project-root>/zed-stage2
 cargo run --release
 ```
 
@@ -129,8 +129,8 @@ cargo run
 Open the Stage 1 workspace or the demo Markdown files from the running Zed build:
 
 ```text
-/home/nfern/Projects/zen-ide/test-markdowns/rich-preview-demo.md
-/home/nfern/Projects/zen-ide/test-markdowns/asset-and-outline-check.md
+<project-root>/test-markdowns/rich-preview-demo.md
+<project-root>/test-markdowns/asset-and-outline-check.md
 ```
 
 Use Zed's Markdown preview command from the command palette. You can also open the command palette and search for "Markdown Preview" or "Open Preview".

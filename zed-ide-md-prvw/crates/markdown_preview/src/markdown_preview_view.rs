@@ -1397,30 +1397,28 @@ fn resolve_preview_image(
         .map(|decoded| decoded.into_owned())
         .unwrap_or_else(|_| dest_url.to_string());
 
-    if let Some(stripped) = ['/', '\\']
+    let path = if let Some(stripped) = ['/', '\\']
         .iter()
         .find_map(|prefix| decoded.strip_prefix(*prefix))
     {
-        if let Some(root) = workspace_directory {
-            let absolute_path = root.join(stripped);
-            if absolute_path.exists() {
-                return Some(ImageSource::Resource(Resource::Path(Arc::from(
-                    absolute_path.as_path(),
-                ))));
-            } else {
-                return None;
-            }
-        }
-    }
-
-    let path = if Path::new(&decoded).is_absolute() {
+        workspace_directory?.join(stripped)
+    } else if Path::new(&decoded).is_absolute() {
         PathBuf::from(decoded)
     } else {
         base_directory?.join(decoded)
     };
 
-    path.exists()
-        .then(|| ImageSource::Resource(Resource::Path(Arc::from(path.as_path()))))
+    if let Some(workspace_root) = workspace_directory {
+        if let Ok(canonical_path) = std::fs::canonicalize(&path) {
+            if let Ok(canonical_workspace) = std::fs::canonicalize(workspace_root) {
+                if canonical_path.starts_with(canonical_workspace) && path.exists() {
+                     return Some(ImageSource::Resource(Resource::Path(Arc::from(path.as_path()))));
+                }
+            }
+        }
+    }
+
+    None
 }
 
 impl Focusable for MarkdownPreviewView {
@@ -2664,6 +2662,37 @@ mod tests {
             "a Default preview must stay bound to the editor it was opened from, not another \
              editor that happens to share the same buffer in a different split"
         );
+    }
+
+    #[test]
+    fn test_resolve_preview_image_path_traversal() {
+        let tree = TempTree::new(json!({
+            "workspace": {
+                "docs": {
+                    "image.png": "in-workspace"
+                }
+            },
+            "secret.txt": "sensitive data"
+        }));
+
+        let workspace_root = &tree.path().join("workspace");
+        let base_directory = &workspace_root.join("docs");
+
+        // Attempt to traverse up from the base directory
+        let resolved = resolve_preview_image(
+            "../../secret.txt",
+            Some(base_directory),
+            Some(workspace_root),
+        );
+        assert!(resolved.is_none(), "Should not be able to access files outside the workspace using ../");
+
+        // Attempt to traverse up from the workspace root using an absolute-like path
+        let resolved_abs = resolve_preview_image(
+            "/../../secret.txt",
+            Some(base_directory),
+            Some(workspace_root),
+        );
+        assert!(resolved_abs.is_none(), "Should not be able to access files outside the workspace using /../");
     }
 
     fn init_test(cx: &mut TestAppContext) -> Arc<AppState> {

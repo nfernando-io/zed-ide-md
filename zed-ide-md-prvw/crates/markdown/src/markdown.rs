@@ -5586,4 +5586,25 @@ mod tests {
             );
         });
     }
+
+    #[gpui::test]
+    fn test_markdown_xss_sanitization(cx: &mut TestAppContext) {
+        let xss_markdown = "<script>alert('xss')</script>";
+        let rendered = render_markdown_with_options(
+            xss_markdown,
+            None,
+            MarkdownOptions {
+                parse_html: true, // Even with HTML parsing enabled, it should be sanitized.
+                ..Default::default()
+            },
+            cx,
+        );
+        let text: String = rendered
+            .lines
+            .iter()
+            .map(|line| line.layout.wrapped_text())
+            .collect();
+
+        assert!(!text.contains("<script>"), "Script tag should be sanitized, but was found in rendered text: {}", text);
+    }
 }

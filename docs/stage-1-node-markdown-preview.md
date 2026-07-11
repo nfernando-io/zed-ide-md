@@ -16,7 +16,7 @@ The Zed task is defined in `.zed/tasks.json` and is bound in `.zed/keymap.json`:
 From the workspace root:
 
 ```bash
-cd /home/nfern/Projects/zen-ide/scripts/markdown-preview
+cd <project-root>/scripts/markdown-preview
 npm install
 npm test
 ```
@@ -28,10 +28,10 @@ The tests use Supertest, which binds a temporary local HTTP server. In restricte
 Use an absolute Markdown path and a workspace root:
 
 ```bash
-cd /home/nfern/Projects/zen-ide
+cd <project-root>
 node scripts/markdown-preview/server.mjs \
-  --file "/home/nfern/Projects/zen-ide/test-markdowns/rich-preview-demo.md" \
-  --root "/home/nfern/Projects/zen-ide"
+  --file "<project-root>/test-markdowns/rich-preview-demo.md" \
+  --root "<project-root>"
 ```
 
 Then open:
@@ -44,7 +44,7 @@ If the server is already running, running the command again with a different `--
 
 ## Run From Zed
 
-1. Open `/home/nfern/Projects/zen-ide` as the worktree in Zed.
+1. Open `<project-root>` as the worktree in Zed.
 2. Open `test-markdowns/rich-preview-demo.md`.
 3. Press `cmd-shift-v` on macOS or `ctrl-shift-v` on Linux/Windows.
 4. The task runs `node scripts/markdown-preview/server.mjs --file "$ZED_FILE" --root "$ZED_WORKTREE_ROOT"`.
@@ -86,7 +86,7 @@ When viewing `rich-preview-demo.md`, confirm:
 
 ```text
 http://127.0.0.1:4477/ping
-http://127.0.0.1:4477/switch?file=/home/nfern/Projects/zen-ide/test-markdowns/asset-and-outline-check.md
+http://127.0.0.1:4477/switch?file=<project-root>/test-markdowns/asset-and-outline-check.md
 http://127.0.0.1:4477/assets/test-markdowns/assets/preview-diagram.svg
 ```
 

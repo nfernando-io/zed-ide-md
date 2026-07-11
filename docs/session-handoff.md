@@ -40,7 +40,7 @@ Zed integration:
 Verification:
 
 ```bash
-cd /home/nfern/Projects/zen-ide/scripts/markdown-preview
+cd <project-root>/scripts/markdown-preview
 npm test
 ```
 
@@ -51,7 +51,7 @@ The test suite passed when run outside the restricted sandbox. Inside the sandbo
 Stage 2 is in:
 
 ```text
-/home/nfern/Projects/zen-ide/zed-stage2
+<project-root>/zed-stage2
 ```
 
 Current branch:
@@ -109,7 +109,7 @@ Native behavior changed:
 Focused tests added or relevant:
 
 ```bash
-cd /home/nfern/Projects/zen-ide/zed-stage2
+cd <project-root>/zed-stage2
 cargo test -p markdown test_preview_style_uses_larger_heading_scale_and_borders
 cargo test -p markdown test_default_code_block_controls_are_visible_on_hover
 cargo test -p markdown test_broken_image_link_renders_placeholder_text
@@ -146,16 +146,16 @@ sudo apt-get install -y \
 
 Demo files:
 
-- `/home/nfern/Projects/zen-ide/test-markdowns/rich-preview-demo.md`
-- `/home/nfern/Projects/zen-ide/test-markdowns/asset-and-outline-check.md`
+- `<project-root>/test-markdowns/rich-preview-demo.md`
+- `<project-root>/test-markdowns/asset-and-outline-check.md`
 
 Stage 1 manual run:
 
 ```bash
-cd /home/nfern/Projects/zen-ide
+cd <project-root>
 node scripts/markdown-preview/server.mjs \
-  --file "/home/nfern/Projects/zen-ide/test-markdowns/rich-preview-demo.md" \
-  --root "/home/nfern/Projects/zen-ide"
+  --file "<project-root>/test-markdowns/rich-preview-demo.md" \
+  --root "<project-root>"
 ```
 
 Open:
@@ -167,14 +167,14 @@ http://127.0.0.1:4477/
 Stage 2 manual run after dependencies are installed:
 
 ```bash
-cd /home/nfern/Projects/zen-ide/zed-stage2
+cd <project-root>/zed-stage2
 cargo run
 ```
 
 Stage 2 now also has Cargo aliases and a matching `xtask` entry point for the common preview workflow:
 
 ```bash
-cd /home/nfern/Projects/zen-ide/zed-stage2
+cd <project-root>/zed-stage2
 cargo preview-dev
 cargo preview-fmt
 cargo preview-check
